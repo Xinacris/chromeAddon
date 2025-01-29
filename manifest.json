@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Gemini Sidebar",
+  "version": "1.0.0",
+  "description": "A Gemini sidebar extension.",
+  "permissions": ["storage", "sidePanel", "activeTab"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "128": "hello_extensions.png"
+    }
+  },
+  "side_panel": {
+    "default_path": "sidebar.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}
