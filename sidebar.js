@@ -9,46 +9,43 @@ document.addEventListener("DOMContentLoaded", () => {
   const lightModeIcon = document.getElementById("light-mode-icon");
   const h1 = document.querySelector("h1");
 
-  let isDarkMode = localStorage.getItem("darkMode") === "true";
-  if (isDarkMode) {
-    darkModeIcon.classList.add("hidden");
-    lightModeIcon.classList.remove("hidden");
-    body.classList.add("dark");
-    body.style.backgroundColor = "#202124";
-    responseContainer.style.backgroundColor = "#343538";
-    promptInput.style.backgroundColor = "#343538";
-    h1.style.color = "white";
-    promptInput.style.color = "white";
-    responseContainer.style.color = "white";
-  }
-
   responseContainer.style.resize = "vertical";
   responseContainer.style.minHeight = "100px";
 
-  darkModeToggle.addEventListener("click", () => {
-    body.classList.toggle("dark");
-    isDarkMode = body.classList.contains("dark");
-    localStorage.setItem("darkMode", isDarkMode);
+  function applyDarkMode(isDark) {
+    const darkModeStyles = {
+      backgroundColor: "#202124",
+      responseBackgroundColor: "#343538",
+      promptBackgroundColor: "#343538",
+      textColor: "white",
+    };
 
-    if (body.classList.contains("dark")) {
-      darkModeIcon.classList.add("hidden");
-      lightModeIcon.classList.remove("hidden");
-      body.style.backgroundColor = "#202124";
-      responseContainer.style.backgroundColor = "#343538";
-      promptInput.style.backgroundColor = "#343538";
-      h1.style.color = "white";
-      promptInput.style.color = "white";
-      responseContainer.style.color = "white";
-    } else {
-      darkModeIcon.classList.remove("hidden");
-      lightModeIcon.classList.add("hidden");
-      body.style.backgroundColor = "white";
-      responseContainer.style.backgroundColor = "#f9f9f9";
-      promptInput.style.backgroundColor = "white";
-      h1.style.color = "black";
-      promptInput.style.color = "black";
-      responseContainer.style.color = "black";
-    }
+    const lightModeStyles = {
+      backgroundColor: "white",
+      responseBackgroundColor: "#f9f9f9",
+      promptBackgroundColor: "white",
+      textColor: "black",
+    };
+
+    const styles = isDark ? darkModeStyles : lightModeStyles;
+
+    darkModeIcon.classList.toggle("hidden", isDark);
+    lightModeIcon.classList.toggle("hidden", !isDark);
+    body.style.backgroundColor = styles.backgroundColor;
+    responseContainer.style.backgroundColor = styles.responseBackgroundColor;
+    promptInput.style.backgroundColor = styles.promptBackgroundColor;
+    h1.style.color = styles.textColor;
+    promptInput.style.color = styles.textColor;
+    responseContainer.style.color = styles.textColor;
+  }
+
+  let isDarkMode = localStorage.getItem("darkMode") === "true";
+  applyDarkMode(isDarkMode);
+
+  darkModeToggle.addEventListener("click", () => {
+    isDarkMode = !isDarkMode;
+    localStorage.setItem("darkMode", isDarkMode);
+    applyDarkMode(isDarkMode);
   });
 
   promptInput.addEventListener("keydown", (event) => {
